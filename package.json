@@ -1,0 +1,35 @@
+{
+  "name": "copy-replace",
+  "version": "1.0.2",
+  "description": "A cli tool that copy and paste file or directory with files and replace text occurrences in files content and path in different cases. Also cli can just replace, without copy.",
+  "main": "src/index.js",
+  "bin": "src/bin.js",
+  "scripts": {
+    "start": "node src/bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vladimirkr/copy-replace.git"
+  },
+  "keywords": [
+    "copy",
+    "paste",
+    "replace"
+  ],
+  "author": "Volodymyr Kryvoshapov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladimirkr/copy-replace/issues"
+  },
+  "homepage": "https://github.com/vladimirkr/copy-replace#readme",
+  "dependencies": {
+    "change-case": "^4.1.1",
+    "commander": "^6.0.0",
+    "fs-extra": "^9.0.1",
+    "klaw-sync": "^6.0.0",
+    "no-case": "^3.0.3",
+    "replace": "^1.2.0",
+    "upper-case": "^2.0.1",
+    "upper-case-first": "^2.0.1"
+  }
+}
