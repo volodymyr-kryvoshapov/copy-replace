@@ -8,20 +8,37 @@ const upperCase = require('upper-case').upperCase;
 const noCase = require('no-case').noCase;
 
 
-function copyReplace(config) {
-  const replaceArr = getReplaceArr(config.from, config.to);
-  const files = getFiles(config.src);
+/**
+ * Copy recursive + rename + replace
+ * If originDst parameter skipped move instead of copy will be applied
+ *
+ * @param {string} src
+ * @param {string|null} originDst
+ * @param {string} from
+ * @param {string} to
+ */
+function copyReplace(src, originDst, from, to) {
+  const replaceArr = getReplaceArr(from, to);
+  const files = getFiles(src);
 
   console.log(replaceArr);
 
   files.forEach(path => {
     let dst = null;
 
-    dst = path.replace(new RegExp(`^${config.src}`), config.dst);
-    dst = replaceByRules(dst, replaceArr);
+    if (originDst) {
+      dst = path.replace(new RegExp(`^${src}`), originDst);
+      dst = replaceByRules(dst, replaceArr);
 
-    fs.ensureDirSync(pathLib.dirname(dst));
-    fs.copySync(path, dst);
+      fs.ensureDirSync(pathLib.dirname(dst));
+      fs.copySync(path, dst);
+    } else {
+      dst = replaceByRules(path, replaceArr);
+
+      if (path !== dst) {
+        fs.moveSync(path, dst, { overwrite: true });
+      }
+    }
 
     replaceFilesContent(dst, replaceArr);
   });
@@ -51,6 +68,12 @@ function getReplaceArr(from, to) {
   return res;
 }
 
+/**
+ * Return array with file or recursive read directory and return array with files
+ *
+ * @param {string} path - file or directory
+ * @returns {string[]}
+ */
 function getFiles(path) {
   const files = [];
 
